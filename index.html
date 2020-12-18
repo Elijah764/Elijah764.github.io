@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phone Call History v0</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        let passcode = prompt("Enter your passcode")
+
+
+        const areaCode = "954";
+        const serverUrl = "https://script.google.com/macros/s/AKfycby2AYbudBgnBWOiE4me3XgoDkCrktLOtPBh5sx587dwZBrSTKs/exec";
+
+        let lastPhoneNumbersHistory = undefined;
+        const invalidNumberMessage = "You need 10 digits to be a valid search";
+
+        function IsValidNumber(phoneNumber){
+            if(phoneNumber.length < 10){
+                console.log(invalidNumberMessage);
+                return false;
+            }
+            return true;
+        }
+
+        function needsPasscode(response){
+            console.log(response);
+            if (response.data.code === 401){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        function getNewPhoneNumber() {
+            let exchange = getRandomInteger(0, 999);
+            let paddedExchange = padExchange(exchange);
+            let last4Digits = getRandomInteger(0, 9999);
+            let paddedLast4Digits = padLast4Digits(last4Digits);
+            let fullPhoneNumber = areaCode + "-" + paddedExchange + "-" +
+                paddedLast4Digits
+
+            document.getElementById("phoneNumberDisplayArea").innerText = fullPhoneNumber;
+        }
+
+        function getRandomInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function padExchange(exchange) {
+            if (exchange.toString().length === 3) {
+                return exchange;
+            } else if (exchange.toString().length === 2) {
+                return "0" + exchange.toString();
+            } else if (exchange.toString().length === 1) {
+                return "00" + exchange.toString();
+            }
+        }
+
+        function padLast4Digits(last4Digits) {
+            if (last4Digits.toString().length === 4) {
+                return last4Digits;
+            } else if (last4Digits.toString().length === 3) {
+                return "0" + last4Digits.toString();
+            } else if (last4Digits.toString().length === 2) {
+                return "00" + last4Digits.toString();
+            } else if (last4Digits.toString().length === 1) {
+                return "000" + last4Digits.toString();
+            }
+        }
+
+        function saveNewResult() {
+            const newPhoneNumber = document.getElementById("phoneNumberDisplayArea").innerText;
+            const phoneNumberArray = newPhoneNumber.split("-");
+            const tempPhoneNumber = phoneNumberArray[1] + phoneNumberArray[2];
+
+            getPhoneAsHash(tempPhoneNumber).then((id) => {
+                const now = new Date();
+                const dateAsString = now.toISOString().split("T")[0];
+                const newResult = document.getElementById("phoneCallResults").value;
+
+                lastPhoneNumbersHistory.push({ "date": dateAsString, "results": newResult });
+
+                let record = {
+                    "id": id,
+                    "callHistory": lastPhoneNumbersHistory
+                };
+                console.log("saveNewResult")
+                console.log("tempPhoneNumber: ", tempPhoneNumber)
+                console.log(record)
+                axios.get(
+                    serverUrl + "?passcode=" + passcode + "&treatAsPost=true&record=" + JSON.stringify(record)
+                ).then(function (response) {
+                    if (needsPasscode(response) == true){
+                        passcode = prompt("Enter your passcode")
+                    } else { console.log("Elijah2")
+                        search()
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                document.getElementById("newEntryForm").style = "display: none;";
+                document.getElementById("phoneCallResults").value = "--";
+            }).catch((error) => {
+                alert("There was an error getting the phone number's ID (#1).");
+            });
+        }
+
+        function search() {
+            let phoneNumber = document.getElementById("searchBoxInput").value;
+            cleanedPhoneNumber = phoneNumber.replace(/-/g, "");
+
+            let numberIsValid = IsValidNumber(cleanedPhoneNumber);
+            if(!numberIsValid){
+                alert(invalidNumberMessage);
+                return;
+            }
+
+            const last7digits = cleanedPhoneNumber.slice(-7);
+
+            getPhoneAsHash(last7digits).then((id) => {
+                console.log("passcode: ", passcode)
+                axios.get(serverUrl + "?passcode=" + passcode + "&id=" + id)
+                    .then(function (response) {
+                        if (needsPasscode(response) == true){
+                            passcode = prompt("Enter your passcode")
+                        } else { console.log("Elijah")
+                            console.log("search")
+                            console.log("last7digits: ", last7digits)
+                            console.log("id: ", id)
+                            const history = response.data;
+                            lastPhoneNumbersHistory = history || [];
+                            let historyInHtml = "";
+                            let hasDoNotCallInHistory = false;
+
+                            if (Array.isArray(history)) {
+                                history.forEach((entry, index) => {
+                                    if (entry.results === "DO NOT CALL") {
+                                        hasDoNotCallInHistory = true;
+                                    }
+
+                                    historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete</a></phone-number-history-entry>`;
+                                })
+                            }
+
+                            historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Add Entry</button>"
+
+                            if (hasDoNotCallInHistory === true) {
+                                historyInHtml = `<p style="color: red;">Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
+                            } else {
+                                historyInHtml = `<p>Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                            }
+
+                            document.getElementById("phone-number-history").innerHTML = historyInHtml;
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+            }).catch((error) => {
+                alert("There was an error getting the phone number's ID. (#2)");
+            });
+
+        }
+
+        function deleteEntry(index) {
+            const newPhoneNumber = document.getElementById("phoneNumberDisplayArea").innerText;
+            const phoneNumberArray = newPhoneNumber.split("-");
+            const tempPhoneNumber = phoneNumberArray[1] + phoneNumberArray[2];
+
+            getPhoneAsHash(tempPhoneNumber).then((id) => {
+                lastPhoneNumbersHistory.splice(index, 1);
+
+                let record = {
+                    "id": id,
+                    "callHistory": lastPhoneNumbersHistory
+                };
+
+                axios.get(
+                    serverUrl + "?passcode=" + passcode + "&treatAsPost=true&record=" + JSON.stringify(record)
+                ).then(function (response) {
+                    if (needsPasscode(response) == true){
+                        passcode = prompt("Enter your passcode")
+                    }else{
+                        search();
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }).catch((error) => {
+                alert("There was an error getting the phone number's ID. (#2)");
+            });
+        }
+
+        function showNewEntryForm() {
+            document.getElementById("newEntryForm").style = "display: block;";
+        }
+
+        function formatPhoneNumber(currentValue) {
+            const currentValueArray = currentValue.split("");
+            let newValue = "";
+
+            for (let i = 0; i < currentValueArray.length; i++) {
+                if (is_numeric(currentValueArray[i])) {
+                    newValue += currentValueArray[i];
+                    if (newValue.length === 3) {
+                        newValue += "-";
+                    } else if (newValue.length === 7) {
+                        newValue += "-";
+                    } else if (newValue.length > 12) {
+                        newValue = newValue.substring(0, 12);
+                    }
+                }
+            }
+
+            return newValue;
+        }
+
+        function is_numeric(str) {
+            return /^\d+$/.test(str);
+        }
+
+        async function getPhoneAsHash(phone) {
+            // encode as UTF-8
+            const msgBuffer = new TextEncoder().encode(phone);
+
+            // hash the phone
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+            // convert ArrayBuffer to Array
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+            // convert bytes to hex string                  
+            const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+            return hashHex;
+        }
+//test code
+        function getNewPhoneNumber() {
+            let areaCode = "954";
+            let exchange = getRandomInteger(0, 999);
+            let paddedExchange = padExchange(exchange);
+            let last4Digits = getRandomInteger(0, 9999);
+            let paddedLast4Digits = padLast4Digits(last4Digits);
+            let fullPhoneNumber = areaCode + "-" + paddedExchange + "-" +
+                paddedLast4Digits
+
+            document.getElementById("searchBoxInput").value = fullPhoneNumber;
+        }
+
+        function getRandomInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function padExchange(exchange) {
+            if (exchange.toString().length === 3) {
+                return exchange;
+            } else if (exchange.toString().length === 2) {
+                return "0" + exchange.toString();
+            } else if (exchange.toString().length === 1) {
+                return "00" + exchange.toString();
+            }
+        }
+
+        function padLast4Digits(last4Digits) {
+            if (last4Digits.toString().length === 4) {
+                return last4Digits;
+            } else if (last4Digits.toString().length === 3) {
+                return "0" + last4Digits.toString();
+            } else if (last4Digits.toString().length === 2) {
+                return "00" + last4Digits.toString();
+            } else if (last4Digits.toString().length === 1) {
+                return "000" + last4Digits.toString();
+            }
+        }
+
+    </script>
+    <style>
+        phone-number-history {
+            display: block;
+        }
+
+        phone-number-history-entry:nth-child(odd) {
+            background-color: #b4b4b4;
+            display: block;
+        }
+
+        phone-number-history-entry:nth-child(even) {
+            background-color: #f2f2f2;
+            display: block;
+        }
+
+        new-entry-form {
+            display: none;
+        }
+
+        body {
+            background: rgb(255, 255, 255);
+            background: linear-gradient(0deg, rgba(255, 255, 255, 1) 19%, rgba(34, 193, 195, 1) 100%);
+            background-repeat: repeat-x;
+        }
+
+        * {
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+        }
+
+        #phoneCallResults {
+            border-radius: 25px;
+            border: 2px solid #1057da;
+        }
+
+        button {
+            border-radius: 25px;
+            border: 2px solid #1057da;
+        }
+
+        #searchBoxInput {
+            border-radius: 25px border: 2px solid #1057da;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button onclick="getNewPhoneNumber()">Get New Phone Number to Call</button>
+
+    <search-form>
+        <input type="text" id="searchBoxInput" onkeyup="this.value = formatPhoneNumber(this.value);" value="" /><button
+            onclick="search()">Search</button>
+    </search-form>
+    <phone-number-history id="phone-number-history">
+    </phone-number-history>
+    <new-entry-form id="newEntryForm" )>
+        <select id="phoneCallResults">
+            <option>--</option>
+            <option>answered</option>
+            <option>not answered</option>
+            <option>busy</option>
+            <option>disconnected</option>
+            <option>DO NOT CALL</option>
+            <option>does not speak english</option>
+            <option>not activated</option>
+        </select>
+        <button onclick="saveNewResult()">Save</button>
+    </new-entry-form>
+</body>
+
+</html>
