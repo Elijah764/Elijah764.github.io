@@ -12,7 +12,7 @@
         let passcode = prompt("Enter your passcode")
 
 
-        const areaCode = "954";
+        const areaCode = "954 182";
         const serverUrl = "https://script.google.com/macros/s/AKfycby2AYbudBgnBWOiE4me3XgoDkCrktLOtPBh5sx587dwZBrSTKs/exec";
 
         let lastPhoneNumbersHistory = undefined;
@@ -41,7 +41,7 @@
             let paddedExchange = padExchange(exchange);
             let last4Digits = getRandomInteger(0, 9999);
             let paddedLast4Digits = padLast4Digits(last4Digits);
-            let fullPhoneNumber = areaCode + "-" + paddedExchange + "-" +
+            let fullPhoneNumber = areaCode + "-" +
                 paddedLast4Digits
 
             document.getElementById("phoneNumberDisplayArea").innerText = fullPhoneNumber;
