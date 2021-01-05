@@ -77,12 +77,12 @@
             const newPhoneNumber = document.getElementById("phoneNumberDisplayArea").innerText;
             const phoneNumberArray = newPhoneNumber.split("-");
             const tempPhoneNumber = phoneNumberArray[1] + phoneNumberArray[2];
+            const newResult = document.getElementById("phoneCallResults").value;
 
             getPhoneAsHash(tempPhoneNumber).then((id) => {
                 const now = new Date();
                 const dateAsString = now.toISOString().split("T")[0];
-                const newResult = document.getElementById("phoneCallResults").value;
-
+                
                 lastPhoneNumbersHistory.push({ "date": dateAsString, "results": newResult });
 
                 let record = {
@@ -106,7 +106,16 @@
 
                 document.getElementById("newEntryForm").style = "display: none;";
                 document.getElementById("phoneCallResults").value = "--";
+            }).then(()=> {
+                if(newResult == "answered" ) {
+                    axios.get(
+                        serverUrl + "?passcode=" + passcode + "&treatAsPost=true&englishNumber=" + newPhoneNumber
+                    ).catch((error) =>{
+                        console.log(error)
+                    })
+                }
             }).catch((error) => {
+                console.log(error)
                 alert("There was an error getting the phone number's ID (#1).");
             });
         }
