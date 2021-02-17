@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Phone Call History v0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phone Call History v3</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
@@ -12,7 +13,7 @@
         let passcode = prompt("Enter your passcode")
 
 
-        const areaCode = "954-137";
+        const areaCode = "954-152";
         const serverUrl = "https://script.google.com/macros/s/AKfycby2AYbudBgnBWOiE4me3XgoDkCrktLOtPBh5sx587dwZBrSTKs/exec";
 
         let lastPhoneNumbersHistory = undefined;
@@ -97,7 +98,7 @@
                 ).then(function (response) {
                     if (needsPasscode(response) == true){
                         passcode = prompt("Enter your passcode")
-                    } else { console.log("Elijah2")
+                    } else { console.log("checkpoint2")
                         search()
                     }
                 }).catch(function (error) {
@@ -129,7 +130,7 @@
                     .then(function (response) {
                         if (needsPasscode(response) == true){
                             passcode = prompt("Enter your passcode")
-                        } else { console.log("Elijah")
+                        } else { console.log("else statment")
                             console.log("search")
                             console.log("last7digits: ", last7digits)
                             console.log("id: ", id)
@@ -144,16 +145,25 @@
                                         hasDoNotCallInHistory = true;
                                     }
 
-                                    historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete</a></phone-number-history-entry>`;
+                                    historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete/eliminar</a></phone-number-history-entry>`;
+                                    //test code not function tho
+                                    document.getElementById("loader").style.visibility = "hidden";
+                                    console.log("code excuted")
                                 })
                             }
 
-                            historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Add Entry</button>"
+                            historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Add Entry/Añadir Resultado</button>"
 
                             if (hasDoNotCallInHistory === true) {
-                                historyInHtml = `<p style="color: red;">Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
+                                historyInHtml = `<p style="color: red;">Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
+                                //test code not function tho
+                                document.getElementById("loader").style.visibility = "hidden";
+                                console.log(" if code excuted")
                             } else {
-                                historyInHtml = `<p>Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                                historyInHtml = `<p>Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                                //test code not function tho
+                                document.getElementById("loader").style.visibility = "hidden";
+                                console.log("else code excuted")
                             }
 
                             document.getElementById("phone-number-history").innerHTML = historyInHtml;
@@ -198,6 +208,8 @@
 
         function showNewEntryForm() {
             document.getElementById("newEntryForm").style = "display: block;";
+            //new test code
+            //setLoadVisibilityToHidden();
         }
 
         function formatPhoneNumber(currentValue) {
@@ -238,9 +250,9 @@
             const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
             return hashHex;
         }
-//test code
+
         function getNewPhoneNumber() {
-            let areaCode = "954-137";
+            let areaCode = "954-152";
             let exchange = getRandomInteger(0, 999);
             let paddedExchange = padExchange(exchange);
             let last4Digits = getRandomInteger(0, 9999);
@@ -275,6 +287,15 @@
             } else if (last4Digits.toString().length === 1) {
                 return "000" + last4Digits.toString();
             }
+        }
+        //load test code
+        function setLoadVisibility() {
+            document.getElementById("loader").style.visibility = "visible";
+            console.log("function called")
+        }
+        function setLoadVisibilityToHidden() {
+            document.getElementById("loader").style.visibility = "hidden";
+            console.log("function hidden called")
         }
 
     </script>
@@ -321,32 +342,60 @@
         #searchBoxInput {
             border-radius: 25px border: 2px solid #1057da;
         }
+        .loader {
+        visibility:hidden;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 40px;
+        height: 40px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
 <body>
 
-    <button onclick="getNewPhoneNumber()">Get New Phone Number to Call</button>
+    <button onclick="getNewPhoneNumber();">New Phone Number/Nuevo Numbero de Telephono</button>
 
     <search-form>
         <input type="text" id="searchBoxInput" onkeyup="this.value = formatPhoneNumber(this.value);" value="" /><button
-            onclick="search()">Search</button>
+            onclick="search(); setLoadVisibility();">Search/Buscar</button>
     </search-form>
     <phone-number-history id="phone-number-history">
     </phone-number-history>
     <new-entry-form id="newEntryForm" )>
         <select id="phoneCallResults">
             <option>--</option>
-            <option>answered</option>
-            <option>not answered</option>
-            <option>busy</option>
-            <option>disconnected</option>
-            <option>DO NOT CALL</option>
+            <option>answered/contestado</option>
+            <option>not answered/no contestado</option>
+            <option>busy/ocupado</option>
+            <option>disconnected/desconectado</option>
+            <option>DO NOT CALL/NO LLAMAS</option>
             <option>does not speak english</option>
-            <option>not activated</option>
+            <option>no hablan español</option>
+            <option>not activated/no activado</option>
         </select>
-        <button onclick="saveNewResult()">Save</button>
+        <button onclick="saveNewResult(); setLoadVisibility();">Save/Salvar</button>
     </new-entry-form>
+    <div id="loader" class="loader"></div>
+    <!-- <button onclick="setLoadVisibility()">click me</button>-->
 </body>
 
 </html>
