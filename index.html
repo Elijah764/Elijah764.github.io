@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Phone Call History v3</title>
+    <title>Phone Call History v4</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
@@ -146,7 +147,7 @@
                                     }
 
                                     historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete/eliminar</a></phone-number-history-entry>`;
-                                    //test code not function tho
+                                    //not function tho
                                     document.getElementById("loader").style.visibility = "hidden";
                                     console.log("code excuted")
                                 })
@@ -156,12 +157,12 @@
 
                             if (hasDoNotCallInHistory === true) {
                                 historyInHtml = `<p style="color: red;">Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
-                                //test code not function tho
+                                //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
                                 console.log(" if code excuted")
                             } else {
                                 historyInHtml = `<p>Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
-                                //test code not function tho
+                                //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
                                 console.log("else code excuted")
                             }
@@ -208,7 +209,7 @@
 
         function showNewEntryForm() {
             document.getElementById("newEntryForm").style = "display: block;";
-            //new test code
+            //extra left over code
             //setLoadVisibilityToHidden();
         }
 
@@ -288,7 +289,6 @@
                 return "000" + last4Digits.toString();
             }
         }
-        //load test code
         function setLoadVisibility() {
             document.getElementById("loader").style.visibility = "visible";
             console.log("function called")
@@ -297,7 +297,8 @@
             document.getElementById("loader").style.visibility = "hidden";
             console.log("function hidden called")
         }
-
+        //test code goes hear
+       
     </script>
     <style>
         phone-number-history {
@@ -317,15 +318,15 @@
         new-entry-form {
             display: none;
         }
-
-        body {
+        /*extra left over code*/
+        /*body {
             background: rgb(255, 255, 255);
             background: linear-gradient(0deg, rgba(255, 255, 255, 1) 19%, rgba(34, 193, 195, 1) 100%);
             background-repeat: repeat-x;
-        }
+        }*/
 
         * {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
         }
 
@@ -333,20 +334,35 @@
             border-radius: 25px;
             border: 2px solid #1057da;
         }
-
-        button {
-            border-radius: 25px;
-            border: 2px solid #1057da;
+        /*extra left over code*/
+        /*button {
+            outline: none;
+            box-shadow: 0px 10px 14px -7px #276873;
+            background-color:#599bb3;
+            border-radius:42px;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            text-decoration:none;
+            text-align:inherit
         }
-
+        button:hover {
+	        background-color:#408c99;
+        }
+        
+        button:active {
+            position:relative;
+	        top:1px;
+        }*/
         #searchBoxInput {
             border-radius: 25px border: 2px solid #1057da;
         }
         .loader {
+        z-index: 1;
         visibility:hidden;
-        border: 16px solid #f3f3f3;
+        border: 16px solid #FF5733;
         border-radius: 50%;
-        border-top: 16px solid #3498db;
+        border-top: 16px solid #DAF7A6;
         width: 40px;
         height: 40px;
         -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -366,6 +382,72 @@
         @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+        }
+        /* test code*/
+        html, body { height: 100%; }
+        body {
+        background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%);
+        overflow: hidden;
+        }
+
+        .ocean { 
+        height: 5%;
+        width:100%;
+        position:absolute;
+        bottom:0;
+        left:0;
+        background: #015871;
+        }
+
+        .wave {
+        background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+        position: absolute;
+        top: -198px;
+        width: 6400px;
+        height: 198px;
+        animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+        transform: translate3d(0, 0, 0);
+        }
+
+        .wave:nth-of-type(2) {
+        top: -175px;
+        animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+        opacity: 1;
+        }
+
+        @keyframes wave {
+        0% {
+            margin-left: 0;
+        }
+        100% {
+            margin-left: -1600px;
+        }
+        }
+
+        @keyframes swell {
+        0%, 100% {
+            transform: translate3d(0,-25px,0);
+        }
+        50% {
+            transform: translate3d(0,5px,0);
+        }
+        }
+        /*more test code for buttons*/
+        button {
+        display: inline-block;
+        width: 200px;
+        padding: 8px;
+        color: black;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        text-align: center;
+        outline: none;
+        text-decoration: none;
+        }
+        button:hover,
+        button:active {
+        background-color: #FF5733;
+        color: #000;
         }
     </style>
 </head>
@@ -396,6 +478,10 @@
     </new-entry-form>
     <div id="loader" class="loader"></div>
     <!-- <button onclick="setLoadVisibility()">click me</button>-->
+    <!-- test code-->
 </body>
-
+<div class="ocean">
+    <div class="wave"></div>
+    <div class="wave"></div>
+</div>
 </html>
