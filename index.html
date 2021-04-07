@@ -149,6 +149,7 @@
                                     historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete/eliminar</a></phone-number-history-entry>`;
                                     //not function tho
                                     document.getElementById("loader").style.visibility = "hidden";
+                                    document.getElementById("textLoader").style.visibility = "hidden";
                                     console.log("code excuted")
                                 })
                             }
@@ -159,11 +160,13 @@
                                 historyInHtml = `<p style="color: red;">Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
                                 //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
+                                document.getElementById("textLoader").style.visibility = "hidden";
                                 console.log(" if code excuted")
                             } else {
                                 historyInHtml = `<p>Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
                                 //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
+                                document.getElementById("textLoader").style.visibility = "hidden";
                                 console.log("else code excuted")
                             }
 
@@ -291,10 +294,12 @@
         }
         function setLoadVisibility() {
             document.getElementById("loader").style.visibility = "visible";
+            document.getElementById("textLoader").style.visibility = "visible";
             console.log("function called")
         }
         function setLoadVisibilityToHidden() {
             document.getElementById("loader").style.visibility = "hidden";
+            document.getElementById("textLoader").style.visibility = "hidden";
             console.log("function hidden called")
         }
         //test code goes hear
@@ -309,6 +314,11 @@
 
             var element = document.getElementById("testIdTwo");
             element.classList.remove("wave");
+
+            var element = document.getElementById("loader");
+            element.classList.remove("loader");
+
+            document.getElementById("removeCSS").style.visibility = "hidden";
             }
     </script>
     <style>
@@ -485,6 +495,9 @@
         background-color: #FF5733;
         color: white;
         }
+        #textLoader{
+            visibility:hidden;
+        }
 
     </style>
 </head>
@@ -517,6 +530,7 @@
         <button onclick="saveNewResult(); setLoadVisibility();">Save/Guardar</button>
     </new-entry-form>
     <div id="loader" class="loader"></div>
+    <div id="textLoader">Loading...</div>
     <!-- <button onclick="setLoadVisibility()">click me</button>-->
 </body>
 <div id="testId"class="ocean">
