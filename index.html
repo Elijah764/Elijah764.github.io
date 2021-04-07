@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Phone Call History v4</title>
+    <title>PCHA v4</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -90,7 +90,7 @@
                 let record = {
                     "id": id,
                     "callHistory": lastPhoneNumbersHistory
-                };
+                };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                 console.log("saveNewResult")
                 console.log("tempPhoneNumber: ", tempPhoneNumber)
                 console.log(record)
@@ -209,7 +209,7 @@
 
         function showNewEntryForm() {
             document.getElementById("newEntryForm").style = "display: block;";
-            //extra left over code
+            //extra left over code use if nonfunction codes dosint work
             //setLoadVisibilityToHidden();
         }
 
@@ -298,7 +298,18 @@
             console.log("function hidden called")
         }
         //test code goes hear
-       
+         function photosensitiveMode() {
+            console.log("Photosensitive Mode button was pressed")
+            
+            var element = document.getElementById("testId");
+            element.classList.remove("ocean");
+
+            var element = document.getElementById("testIdOne");
+            element.classList.remove("wave");
+
+            var element = document.getElementById("testIdTwo");
+            element.classList.remove("wave");
+            }
     </script>
     <style>
         phone-number-history {
@@ -313,6 +324,7 @@
         phone-number-history-entry:nth-child(even) {
             background-color: #f2f2f2;
             display: block;
+            
         }
 
         new-entry-form {
@@ -332,9 +344,10 @@
 
         #phoneCallResults {
             border-radius: 25px;
-            border: 2px solid #1057da;
+            border: 2px solid black;
+            z-index: 1
         }
-        /*extra left over code*/
+        /*extra left over code use if advance button code doesint work*/
         /*button {
             outline: none;
             box-shadow: 0px 10px 14px -7px #276873;
@@ -357,6 +370,7 @@
         #searchBoxInput {
             border-radius: 25px border: 2px solid #1057da;
         }
+        /*loader code*/
         .loader {
         z-index: 1;
         visibility:hidden;
@@ -370,7 +384,6 @@
         position: absolute;
         left: 50%;
         top: 50%;
-
         }
 
         /* Safari */
@@ -383,8 +396,10 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
         }
-        /* test code*/
-        html, body { height: 100%; }
+        /* test code for backround*/
+        html, body { 
+        height: 100%; 
+        }
         body {
         background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%);
         overflow: hidden;
@@ -432,8 +447,9 @@
             transform: translate3d(0,5px,0);
         }
         }
-        /*more test code for buttons*/
+    
         button {
+        object-position: 50% 50%;
         display: inline-block;
         width: 200px;
         padding: 8px;
@@ -443,19 +459,43 @@
         text-align: center;
         outline: none;
         text-decoration: none;
+        z-index: 1;
         }
         button:hover,
         button:active {
         background-color: #FF5733;
-        color: #000;
+        color: white;
         }
+        /*test code for photosesnative mode */
+        #removeCSS {
+        visibility:visible;
+        position: fixed;
+        bottom: 0px;
+        right: 0px; 
+        padding: 20px;
+        z-index: 3;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        text-align: center;
+        outline: none;
+        text-decoration: none;
+        }
+        #removeCSS:hover,
+        #removeCSS:active {
+        background-color: #FF5733;
+        color: white;
+        }
+
     </style>
 </head>
 
-<body>
+<body id="holeWebsite">
 
-    <button onclick="getNewPhoneNumber();">New Phone Number/Nuevo Numbero de Telephono</button>
+    <button onclick = "getNewPhoneNumber();">New Phone Number/Nuevo Numero de Telefono</button>
 
+    <!-- test code-->
+    <button  id= "removeCSS" onclick= "photosensitiveMode();">Photosensitive Mode/Modo Fotosensible</button>
+    <!-- end of test code-->
     <search-form>
         <input type="text" id="searchBoxInput" onkeyup="this.value = formatPhoneNumber(this.value);" value="" /><button
             onclick="search(); setLoadVisibility();">Search/Buscar</button>
@@ -474,14 +514,13 @@
             <option>no hablan español</option>
             <option>not activated/no activado</option>
         </select>
-        <button onclick="saveNewResult(); setLoadVisibility();">Save/Salvar</button>
+        <button onclick="saveNewResult(); setLoadVisibility();">Save/Guardar</button>
     </new-entry-form>
     <div id="loader" class="loader"></div>
     <!-- <button onclick="setLoadVisibility()">click me</button>-->
-    <!-- test code-->
 </body>
-<div class="ocean">
-    <div class="wave"></div>
-    <div class="wave"></div>
+<div id="testId"class="ocean">
+    <div id="testIdOne" class="wave"></div>
+    <div id="testIdTwo" class="wave"></div>
 </div>
 </html>
