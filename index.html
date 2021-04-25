@@ -322,6 +322,8 @@
             }
     </script>
     <style>
+
+
         phone-number-history {
             display: block;
         }
@@ -340,7 +342,7 @@
         new-entry-form {
             display: none;
         }
-        /*extra left over code*/
+        /*extra left over code:use in emergency*/
         /*body {
             background: rgb(255, 255, 255);
             background: linear-gradient(0deg, rgba(255, 255, 255, 1) 19%, rgba(34, 193, 195, 1) 100%);
@@ -499,10 +501,14 @@
             visibility:hidden;
         }
 
+        :root{
+            cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🏄</text></svg>") 16 0,auto; 
+        }
+
     </style>
 </head>
 
-<body id="holeWebsite">
+<body class ="holeWebsite">
 
     <button onclick = "getNewPhoneNumber();">New Phone Number/Nuevo Numero de Telefono</button>
 
