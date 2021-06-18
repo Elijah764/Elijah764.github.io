@@ -7,14 +7,14 @@
     <title>PCHA v4</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let passcode = prompt("Enter your passcode/introducir la contraseña")
 
 
-        const areaCode = "954-152";
+        const areaCode = "954-153";
         const serverUrl = "https://script.google.com/macros/s/AKfycby2AYbudBgnBWOiE4me3XgoDkCrktLOtPBh5sx587dwZBrSTKs/exec";
 
         let lastPhoneNumbersHistory = undefined;
@@ -212,7 +212,7 @@
 
         function showNewEntryForm() {
             document.getElementById("newEntryForm").style = "display: block;";
-            //extra left over code use if nonfunction codes dosint work
+            //extra left over code use if nonfunction codes dosint work use this
             //setLoadVisibilityToHidden();
         }
 
@@ -256,7 +256,7 @@
         }
 
         function getNewPhoneNumber() {
-            let areaCode = "954-152";
+            let areaCode = "954-153";
             let exchange = getRandomInteger(0, 999);
             let paddedExchange = padExchange(exchange);
             let last4Digits = getRandomInteger(0, 9999);
@@ -408,7 +408,7 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
         }
-        /* test code for backround*/
+        /* code for backround*/
         html, body { 
         height: 100%; 
         }
