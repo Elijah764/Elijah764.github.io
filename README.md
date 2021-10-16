@@ -11,5 +11,5 @@ The way the app works it that it used the website as the user interface and the 
 
 The first 6 number always stay the same till the database if filled without 500 numbers we did the math and theres about 500+ diffrent number possablities. So at 500 I manualy change the middle 3 numbers do go onto the next set of 500+ numbers. I dont delete the the first 3 so that we use the same area code. I started this project ages ago then I learned about CS50 and it funny because this hole project is in javascript and CS50 had one section with Javascrip but oh well. 
 
-P.S. I added the surfer and the wave as an inside joke because my friend liked to surf
+The way the website was designed was to be entertaining. When i first made the app i just had a simple blue and white backround but then my friend looked at it and said it looked boring. So I knew he liked surfing so i looked up how to make a css wave. Then I also wanted the cursor to do something so I looked up how to make a cursor into a emoji and the easiest way to do it without adding a file was thorugh javascript.
 Enjoy!
