@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PCHA v4</title>
+    <title>PCHA v5</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
     <script>
         let passcode = prompt("Enter your passcode/introducir la contraseña")
 
+        let isEnlgish = true;
 
         const areaCode = "954-153";
         const serverUrl = "https://script.google.com/macros/s/AKfycby2AYbudBgnBWOiE4me3XgoDkCrktLOtPBh5sx587dwZBrSTKs/exec";
@@ -153,17 +154,30 @@
                                     console.log("code excuted")
                                 })
                             }
-
-                            historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Add Entry/Añadir Resultado</button>"
+                            if(isEnlgish == true){
+                                historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Add Entry</button>"
+                            } else {
+                                historyInHtml += "<button onclick='showNewEntryForm(); this.style=\"display: none;\"'>Añadir Resultado</button>"
+                            }
 
                             if (hasDoNotCallInHistory === true) {
-                                historyInHtml = `<p style="color: red;">Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
-                                //not function tho
+                                if(isEnlgish == true){
+                                    historyInHtml = `<p style="color: red;">Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
+                                } else{
+                                    historyInHtml = `<p style="color: red;">Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
+                                }
+                                    //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
                                 document.getElementById("textLoader").style.visibility = "hidden";
                                 console.log(" if code excuted")
                             } else {
-                                historyInHtml = `<p>Call History for/Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                            
+                                if(isEnlgish == true){
+                                    historyInHtml = `<p>Call History for <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                                } else{
+                                    historyInHtml = `<p>Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number></p>` + historyInHtml;
+                                }
+
                                 //not function tho
                                 document.getElementById("loader").style.visibility = "hidden";
                                 document.getElementById("textLoader").style.visibility = "hidden";
@@ -302,7 +316,8 @@
             document.getElementById("textLoader").style.visibility = "hidden";
             console.log("function hidden called")
         }
-        //test code goes hear
+        
+
          function photosensitiveMode() {
             console.log("Photosensitive Mode button was pressed")
             
@@ -320,7 +335,56 @@
 
             document.getElementById("removeCSS").style.visibility = "hidden";
             }
+
+            //start of test code
+            window.addEventListener('DOMContentLoaded', (event) => {
+                console.log('DOM fully loaded and parsed');
+
+                let btnMakeOtherLanguage = document.getElementById("makeOtherLanguage");
+    
+                let searchButton = document.getElementById("searchButton");
+                let newPhoneNumberButton = document.getElementById("newPhoneNumberButton");
+                let saveButton = document.getElementById("saveButton")
+                let removeCSS = document.getElementById("removeCSS")
+                let textLoader = document.getElementById("textLoader")
+                
+                btnMakeOtherLanguage.addEventListener("click", ()=>{
+
+                    console.log("clicked spanish button")
+                    
+                    //englishVersion.style.display = "none";
+                    //spanishVersion.style.display = "block";
+
+                    if( isEnlgish == "true"){
+                        
+                        searchButton.innerHTML = "Buscar"
+                        newPhoneNumberButton.innerHTML = "Nuevo Numero de Telefono";
+                        saveButton.innerHTML ="Guardar"
+                        btnMakeOtherLanguage.innerHTML ="Change Language"
+                        removeCSS.innerHTML ="Modo Fotosensible"
+                        textLoader.innerHTML = "Cargando.."
+                        isEnlgish = "false";
+
+                    }else{
+
+                        searchButton.innerHTML = "Search"
+                        newPhoneNumberButton.innerHTML = "New Phone Number";
+                        saveButton.innerHTML ="Save"
+                        btnMakeOtherLanguage.innerHTML ="Cambiar Idioma"
+                        removeCSS.innerHTML ="Photosensitive Mode"
+                        textLoader.innerHTML = "Loading.."
+                        isEnlgish = "true";
+                        
+                    };
+                    console.log("code executed")
+
+                });
+                
+            }); 
+            //end of test code
+            
     </script>
+    
     <style>
 
 
@@ -380,7 +444,8 @@
 	        top:1px;
         }*/
         #searchBoxInput {
-            border-radius: 25px border: 2px solid #1057da;
+            border-radius: 25px;
+            border: 2px solid #1057da;
         }
         /*loader code*/
         .loader {
@@ -505,42 +570,54 @@
             cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🏄</text></svg>") 16 0,auto; 
         }
 
+        #makeOtherLanguage{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
     </style>
 </head>
 
-<body class ="holeWebsite">
+<div id= "englishVersion">
+    <body class ="holeWebsite">
 
-    <button onclick = "getNewPhoneNumber();">New Phone Number/Nuevo Numero de Telefono</button>
+        <!--this is brick button\/\/\/\/\/-->
+        <button value = "true"id= "newPhoneNumberButton" onclick = "getNewPhoneNumber();">New Phone Number</button>
 
-    <!-- test code-->
-    <button  id= "removeCSS" onclick= "photosensitiveMode();">Photosensitive Mode/Modo Fotosensible</button>
-    <!-- end of test code-->
-    <search-form>
-        <input type="text" id="searchBoxInput" onkeyup="this.value = formatPhoneNumber(this.value);" value="" /><button
-            onclick="search(); setLoadVisibility();">Search/Buscar</button>
-    </search-form>
-    <phone-number-history id="phone-number-history">
-    </phone-number-history>
-    <new-entry-form id="newEntryForm" )>
-        <select id="phoneCallResults">
-            <option>--</option>
-            <option>answered/contestado</option>
-            <option>not answered/no contestado</option>
-            <option>busy/ocupado</option>
-            <option>disconnected/desconectado</option>
-            <option>DO NOT CALL/NO LLAMAS</option>
-            <option>does not speak english</option>
-            <option>no hablan español</option>
-            <option>not activated/no activado</option>
-        </select>
-        <button onclick="saveNewResult(); setLoadVisibility();">Save/Guardar</button>
-    </new-entry-form>
-    <div id="loader" class="loader"></div>
-    <div id="textLoader">Loading...</div>
-    <!-- <button onclick="setLoadVisibility()">click me</button>-->
-</body>
-<div id="testId"class="ocean">
-    <div id="testIdOne" class="wave"></div>
-    <div id="testIdTwo" class="wave"></div>
+        <button  id= "removeCSS" onclick= "photosensitiveMode();">Photosensitive Mode</button>
+        
+        <button id= "makeOtherLanguage">Change Language</button>
+
+        <search-form>
+            <input type="text" id="searchBoxInput" onkeyup="this.value = formatPhoneNumber(this.value);" value="" />
+            <button id ="searchButton" onclick="search(); setLoadVisibility();"> Search </button>
+        </search-form>
+        <phone-number-history id="phone-number-history">
+        </phone-number-history>
+        <new-entry-form id="newEntryForm">
+            <select id="phoneCallResults">
+                <option>--</option>
+                <option>answered/contestado</option>
+                <option>not answered/no contestado</option>
+                <option>busy/ocupado</option>
+                <option>disconnected/desconectado</option>
+                <option>DO NOT CALL/NO LLAMAS</option>
+                <option>does not speak english</option>
+                <option>no hablan español</option>
+                <option>not activated/no activado</option>
+            </select>
+            <button id= "saveButton"onclick="saveNewResult(); setLoadVisibility();">Save</button>
+        </new-entry-form>
+        <div id="loader" class="loader"></div>
+        <div id="textLoader">Loading...</div>
+        <!-- <button onclick="setLoadVisibility()">click me</button>-->
+    </body>
+    <div id="testId"class="ocean">
+        <div id="testIdOne" class="wave"></div>
+        <div id="testIdTwo" class="wave"></div>
+    </div>
 </div>
+
 </html>
