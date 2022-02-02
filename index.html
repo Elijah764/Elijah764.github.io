@@ -2,17 +2,27 @@
 <html>
 
 <head>
-    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAABXcMMAAAAAAJiYvAAaHCsAMDyGADs+tQBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAETMzMzMzMxERMzMzMzMzETNEVURVRFUzM0RVRFVEVTMzAAAiAAAiMzMAACIAACIzM2ZmZmZmZjMzZmZmZmZmMzNVAGZVRFUzM1UAZlVEVTMzRABmRAAAMzNEAGZEAAAzM1UiZgAiADMzVSJmACIAMxEzMzMzMzMRETMzMzMzMxHAAwAAwAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMADAADAAwAA" rel="icon" type="image/x-icon" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PCHA v5</title>
+    <title>PCHA v6</title>
+    <li<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAABXcMMAAAAAAJiYvAAaHCsAMDyGADs+tQBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAETMzMzMzMxERMzMzMzMzETNEVURVRFUzM0RVRFVEVTMzAAAiAAAiMzMAACIAACIzM2ZmZmZmZjMzZmZmZmZmMzNVAGZVRFUzM1UAZlVEVTMzRABmRAAAMzNEAGZEAAAzM1UiZgAiADMzVSJmACIAMxEzMzMzMzMRETMzMzMzMxHAAwAAwAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMADAADAAwAA" rel="icon" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        let passcode = prompt("Enter your passcode/introducir la contraseña")
+        let passcode = prompt(" Enter your passcode  \n Introducir la contraseña")
+
+        //test code
+
+        if(passcode != "zicatela2020"){
+            alert(" Wrong Passcode Please Reload and Try Again \n Código de acceso incorrecto, vuelva a cargar y vuelva a intentarlo")
+            window.location.href = "https://elijah764.github.io/"
+        }
+
+        //end of text code
+
 
         let isEnlgish = true;
 
@@ -133,6 +143,16 @@
                     .then(function (response) {
                         if (needsPasscode(response) == true){
                             passcode = prompt("Enter your passcode")
+
+                            //test code
+
+                            if(passcode != "zicatela2020"){
+                                alert(" Wrong Passcode Please Reload and Try Again \n Código de acceso incorrecto, vuelva a cargar y vuelva a intentarlo")
+                                window.location.href = "https://elijah764.github.io/"
+                            }
+
+                            //end of text code
+
                         } else { console.log("else statment")
                             console.log("search")
                             console.log("last7digits: ", last7digits)
@@ -150,7 +170,7 @@
 
                                     historyInHtml = historyInHtml + `<phone-number-history-entry>${entry.date}: ${entry.results}&nbsp;|&nbsp;<a href="#" onclick="deleteEntry(${index})">delete/eliminar</a></phone-number-history-entry>`;
                                     //not function tho
-                                    document.getElementById("loader").style.visibility = "hidden";
+                                    document.getElementById("loading").style.visibility = "hidden";
                                     document.getElementById("textLoader").style.visibility = "hidden";
                                     console.log("code excuted")
                                 })
@@ -168,7 +188,7 @@
                                     historyInHtml = `<p style="color: red;">Historial de llamada de <phone-number id="phoneNumberDisplayArea">${phoneNumber}</phone-number> - DO NOT CALL</p>` + historyInHtml;
                                 }
                                     //not function tho
-                                document.getElementById("loader").style.visibility = "hidden";
+                                document.getElementById("loading").style.visibility = "hidden";
                                 document.getElementById("textLoader").style.visibility = "hidden";
                                 console.log(" if code excuted")
                             } else {
@@ -180,7 +200,7 @@
                                 }
 
                                 //not function tho
-                                document.getElementById("loader").style.visibility = "hidden";
+                                document.getElementById("loading").style.visibility = "hidden";
                                 document.getElementById("textLoader").style.visibility = "hidden";
                                 console.log("else code excuted")
                             }
@@ -308,12 +328,12 @@
             }
         }
         function setLoadVisibility() {
-            document.getElementById("loader").style.visibility = "visible";
+            document.getElementById("loading").style.visibility = "visible";
             document.getElementById("textLoader").style.visibility = "visible";
             console.log("function called")
         }
         function setLoadVisibilityToHidden() {
-            document.getElementById("loader").style.visibility = "hidden";
+            document.getElementById("loading").style.visibility = "hidden";
             document.getElementById("textLoader").style.visibility = "hidden";
             console.log("function hidden called")
         }
@@ -331,13 +351,13 @@
             var element = document.getElementById("testIdTwo");
             element.classList.remove("wave");
 
-            var element = document.getElementById("loader");
-            element.classList.remove("loader");
+            var element = document.getElementById("loading");
+            element.classList.remove("loading");
 
             document.getElementById("removeCSS").style.visibility = "hidden";
             }
 
-            //start of test code
+            
             window.addEventListener('DOMContentLoaded', (event) => {
                 console.log('DOM fully loaded and parsed');
 
@@ -356,10 +376,10 @@
                     //englishVersion.style.display = "none";
                     //spanishVersion.style.display = "block";
 
-                    if( isEnlgish == "true"){
+                    if(isEnlgish == "true"){
                         
                         searchButton.innerHTML = "Buscar"
-                        newPhoneNumberButton.innerHTML = "Nuevo Numero de Telefono";
+                        newPhoneNumberButton.innerHTML = " Generar Nuevo Numero de Telefono";
                         saveButton.innerHTML ="Guardar"
                         btnMakeOtherLanguage.innerHTML ="Change Language"
                         removeCSS.innerHTML ="Modo Fotosensible"
@@ -382,12 +402,11 @@
                 });
                 
             }); 
-            //end of test code
-            
+        
+    
     </script>
     
     <style>
-
 
         phone-number-history {
             display: block;
@@ -576,7 +595,225 @@
             bottom: 0;
             left: 0;
             z-index: 1;
+
         }
+            :root {
+        --pizza-size: 150px;
+        }
+
+        .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        left: 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        }
+        .bg-wrap {
+        height: 100vh;
+        left: 0;
+        opacity: 0.8;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        }
+        .pizza {
+        height: var(--pizza-size);
+        position: relative;
+        width: var(--pizza-size);
+        z-index: 10;
+        }
+        .pizza_piece {
+        animation-iteration-count: infinite;
+        animation-direction: normal;
+        animation-duration: 1.4s;
+        align-items: center;
+        justify-content: center;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 50% 50%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        }
+        .pizza_inner {
+        border-radius: 50%;
+        grid-column: 1/3;
+        grid-row: 1/3;
+        margin: 0 auto;
+        }
+        .pizza_crust {
+        border: 13px solid #ff9439;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        }
+        .pizza_sause {
+        border: calc(var(--pizza-size)/2 - 10px) solid #ff000e;
+        height: 1px;
+        width: 1px;
+        }
+        .pizza_cheeze {
+        border: calc(var(--pizza-size)/2 - 15px) solid #efde81;
+        height: 1px;
+        width: 1px;
+        }
+        .pizza_filling {
+        background-image: radial-gradient(circle at center,red 0, red 6px, transparent 6px, transparent 100%);
+        background-repeat: repeat;
+        background-position: left center;
+        background-size: 18px 18px;
+        border-radius: 100%;
+        height: calc(100% - 20px);
+        margin: 0;
+        overflow: hidden;
+        transform: rotate(45deg);
+        width: calc(100% - 20px);
+        }
+        .pizza_piece:first-child {
+        animation-name: top-piece;
+        }
+        .pizza_piece:nth-child(2) {
+        animation-name: right-piece;
+        }
+        .pizza_piece:nth-child(3) {
+        animation-name: bottom-piece;
+        }
+        .pizza_piece:nth-child(4) {
+        animation-name: left-piece;
+        }
+        .pizza_piece:first-child .pizza_inner {
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        }
+        .pizza_piece:nth-child(2) .pizza_inner {
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        }
+        .pizza_piece:nth-child(3) .pizza_inner {
+        border-right-color: transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        }
+        .pizza_piece:nth-child(4) .pizza_inner {
+        border-bottom-color: transparent;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        }
+        .pizza_piece:first-child .pizza_filling {
+        align-self: flex-end;
+        grid-column: 1/2;
+        grid-row: 1/2;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        margin-left: auto;
+        transform-origin: right bottom;
+        }
+        .pizza_piece:nth-child(2) .pizza_filling {
+        align-self: flex-end;
+        grid-column: 2/3;
+        grid-row: 1/2;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        margin-right: auto;
+        transform-origin: left bottom;
+        }
+        .pizza_piece:nth-child(3) .pizza_filling {
+        align-self: flex-start;
+        grid-column: 2/3;
+        grid-row: 2/3;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        margin-right: auto;
+        transform-origin: left top;
+        }
+        .pizza_piece:nth-child(4) .pizza_filling {
+        align-self: flex-start;
+        grid-column: 1/2;
+        grid-row: 2/3;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-left: auto;
+        transform-origin: right top;
+        }
+
+        @keyframes top-piece {
+        0% {
+            transform: translateY(0);
+        }
+        20% {
+            transform: translateY(-10px);
+        }
+        40% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(0);
+        }
+        }
+        @keyframes right-piece {
+        0% {
+            transform: translateX(0);
+        }
+        20% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateX(10px);
+        }
+        60% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(0);
+        }
+        }
+        @keyframes bottom-piece {
+        0% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(0);
+        }
+        60% {
+            transform: translateY(10px);
+        }
+        80% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateY(0);
+        }
+        }
+        @keyframes left-piece {
+        0% {
+            transform: translateX(0);
+        }
+        60% {
+            transform: translateY(0);
+        }
+        80% {
+            transform: translateX(-10px);
+        }
+        100% {
+            transform: translateX(0);
+        }
+        }
+
 
     </style>
 </head>
@@ -585,7 +822,7 @@
     <body class ="holeWebsite">
 
         <!--this is brick button\/\/\/\/\/-->
-        <button value = "true"id= "newPhoneNumberButton" onclick = "getNewPhoneNumber();">New Phone Number</button>
+        <button value = "true"id= "newPhoneNumberButton" onclick = "getNewPhoneNumber();"> Generate New Phone Number</button>
 
         <button  id= "removeCSS" onclick= "photosensitiveMode();">Photosensitive Mode</button>
         
@@ -611,8 +848,42 @@
             </select>
             <button id= "saveButton"onclick="saveNewResult(); setLoadVisibility();">Save</button>
         </new-entry-form>
+        <!--
         <div id="loader" class="loader"></div>
+        -->
+
         <div id="textLoader">Loading...</div>
+
+        <div id="loading" class="loading" aria-label="Loading" style="visibility: hidden;">
+            <div class="bg-wrap"></div>
+            <div class="pizza" >
+              <div class="pizza_piece">
+                <div class="pizza_crust pizza_inner"></div>
+                <div class="pizza_sause pizza_inner"></div>
+                <div class="pizza_cheeze pizza_inner"></div>
+                <div class="pizza_filling">
+                </div>
+              </div>
+              <div class="pizza_piece">
+                <div class="pizza_crust pizza_inner"></div>
+                <div class="pizza_sause pizza_inner"></div>
+                <div class="pizza_cheeze pizza_inner"></div>
+                <div class="pizza_filling"></div>
+              </div>
+              <div class="pizza_piece">
+                <div class="pizza_crust pizza_inner"></div>
+                <div class="pizza_sause pizza_inner"></div>
+                <div class="pizza_cheeze pizza_inner"></div>
+                <div class="pizza_filling"></div>
+              </div>
+              <div class="pizza_piece">
+                <div class="pizza_crust pizza_inner"></div>
+                <div class="pizza_sause pizza_inner"></div>
+                <div class="pizza_cheeze pizza_inner"></div>
+                <div class="pizza_filling"></div>
+              </div>
+            </div>
+          </div>
         <!-- <button onclick="setLoadVisibility()">click me</button>-->
     </body>
     <div id="testId"class="ocean">
